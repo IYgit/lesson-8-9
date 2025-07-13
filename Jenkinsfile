@@ -95,26 +95,35 @@ spec:
         stage('Update Helm Chart') {
             steps {
                 container('git') {
-                    script {
-                        sh """
-                            # Налаштування Git
-                            git config --global user.email 'jenkins@cicd.local'
-                            git config --global user.name 'Jenkins CI/CD'
-                            git config --global --add safe.directory /home/jenkins/agent/workspace/*
-                            
-                            # Оновлюємо values.yaml з новим тегом
-                            sed -i 's/tag: .*/tag: ${IMAGE_TAG}/' ${HELM_CHART_PATH}
-                            
-                            # Перевіряємо зміни
-                            git diff ${HELM_CHART_PATH}
-                            
-                            # Додаємо та коммітимо зміни
-                            git add ${HELM_CHART_PATH}
-                            git commit -m "Update image tag to ${IMAGE_TAG} - Build #${BUILD_NUMBER}"
-                            
-                            # Пушимо зміни в main
-                            git push origin HEAD:${GIT_BRANCH}
-                        """
+                    withCredentials([usernamePassword(
+                        credentialsId: 'github-credentials',
+                        usernameVariable: 'GIT_USERNAME',
+                        passwordVariable: 'GIT_PASSWORD'
+                    )]) {
+                        script {
+                            sh """
+                                # Налаштування Git
+                                git config --global user.email 'jenkins@cicd.local'
+                                git config --global user.name 'Jenkins CI/CD'
+                                git config --global --add safe.directory /home/jenkins/agent/workspace/*
+                                
+                                # Оновлюємо values.yaml з новим тегом
+                                sed -i 's/tag: .*/tag: ${IMAGE_TAG}/' ${HELM_CHART_PATH}
+                                
+                                # Перевіряємо зміни
+                                git diff ${HELM_CHART_PATH}
+                                
+                                # Додаємо та коммітимо зміни
+                                git add ${HELM_CHART_PATH}
+                                git commit -m "Update image tag to ${IMAGE_TAG} - Build #${BUILD_NUMBER}" || echo "No changes to commit"
+                                
+                                # Налаштовуємо remote URL з credentials
+                                git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/IYgit/lesson-8-9.git
+                                
+                                # Пушимо зміни в main
+                                git push origin HEAD:${GIT_BRANCH}
+                            """
+                        }
                     }
                 }
             }

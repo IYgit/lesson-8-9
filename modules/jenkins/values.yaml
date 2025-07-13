@@ -6,6 +6,10 @@ controller:
     userKey: jenkins-admin-user
     passwordKey: jenkins-admin-password
   
+  # Дозволити доступ з будь-якого IP
+  javaOpts: "-Dhudson.model.DirectoryBrowserSupport.CSP=\"\" -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+  jenkinsOpts: "--httpPort=8080 --httpsPort=-1"
+  
   installPlugins:
     - kubernetes:latest
     - workflow-aggregator:latest
