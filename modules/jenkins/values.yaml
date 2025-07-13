@@ -1,4 +1,7 @@
 controller:
+  auth:
+    jenkins:
+      password: "H@dyRlwgkI*D%DRR"
   admin:
     username: "admin"
     password: "H@dyRlwgkI*D%DRR"
@@ -11,16 +14,21 @@ controller:
   jenkinsOpts: "--httpPort=8080 --httpsPort=-1"
   
   installPlugins:
-    - kubernetes:latest
-    - workflow-aggregator:latest
-    - git:latest
-    - configuration-as-code:latest
-    - amazon-ecr:latest
-    - github:latest
-    - github-pullrequest:latest
-    - generic-webhook-trigger:latest
-    - pipeline-stage-view:latest
-    - blueocean:latest
+    - kubernetes:4.20.0
+    - workflow-aggregator:596.v8c21c963d92d
+    - workflow-job:1436.vfa_244484591f
+    - pipeline-stage-view:2.34
+    - git:5.4.1
+    - configuration-as-code:1870.vf3dc5da_115a_f
+    - amazon-ecr:1.7
+    - github:1.40.0
+    - github-pullrequest:0.9.0
+    - generic-webhook-trigger:2.2.2
+    - blueocean:1.27.14
+    - scm-api:696.v778d637b_a_762
+    - git-client:6.0.0
+    - credentials:1371.vfee6b_095f0a_3
+    - credentials-binding:677.vdc9d38cb_254d
 
   resources:
     requests:
