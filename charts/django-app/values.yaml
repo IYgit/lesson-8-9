@@ -23,3 +23,8 @@ configMap:
   POSTGRES_PORT: "5432"
   DEBUG: "True"
   DJANGO_ALLOWED_HOSTS: "*"
+
+persistence:
+  enabled: true
+  storageClass: "ebs-sc"
+  size: "10Gi"

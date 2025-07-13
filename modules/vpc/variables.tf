@@ -27,3 +27,8 @@ variable "private_subnet_cidrs" {
   type        = list(string)
   default     = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
 }
+
+variable "cluster_name" {
+  description = "Назва EKS кластера"
+  type        = string
+}

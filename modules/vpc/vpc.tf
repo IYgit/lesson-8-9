@@ -22,7 +22,10 @@ resource "aws_subnet" "public" {
   tags = {
     Name        = "${var.environment}-public-subnet-${count.index + 1}"
     Environment = var.environment
+    "kubernetes.io/cluster/${var.environment}-${var.cluster_name}" = "shared"
+    "kubernetes.io/role/elb" = "1"
   }
+
 }
 
 # Приватні підмережі
@@ -35,7 +38,10 @@ resource "aws_subnet" "private" {
   tags = {
     Name        = "${var.environment}-private-subnet-${count.index + 1}"
     Environment = var.environment
+    "kubernetes.io/cluster/${var.environment}-${var.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
   }
+
 }
 
 # Internet Gateway
