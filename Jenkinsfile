@@ -1,4 +1,11 @@
 pipeline {
+    triggers {
+        // Перевіряти Git репозиторій кожні 2 хвилини на предмет змін
+        pollSCM('H/2 * * * *')
+        // Альтернативно: автоматичний білд після push в main
+        githubPush()
+    }
+    
     agent {
         kubernetes {
             yaml """
@@ -38,6 +45,22 @@ spec:
     }
 
     stages {
+        stage('Check Branch') {
+            steps {
+                script {
+                    echo "Current branch: ${env.GIT_BRANCH}"
+                    echo "Build triggered for: ${env.BRANCH_NAME ?: 'main'}"
+                    
+                    // Виконувати білд тільки для main гілки
+                    if (env.BRANCH_NAME && env.BRANCH_NAME != 'main') {
+                        echo "Skipping build for branch: ${env.BRANCH_NAME}"
+                        currentBuild.result = 'ABORTED'
+                        error('Build skipped for non-main branch')
+                    }
+                }
+            }
+        }
+        
         stage('Checkout') {
             steps {
                 checkout scm
