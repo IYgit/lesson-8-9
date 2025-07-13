@@ -2,6 +2,9 @@ controller:
   admin:
     username: "admin"
     password: "H@dyRlwgkI*D%DRR"
+    existingSecret: ""
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
   
   installPlugins:
     - kubernetes:latest
@@ -9,6 +12,11 @@ controller:
     - git:latest
     - configuration-as-code:latest
     - amazon-ecr:latest
+    - github:latest
+    - github-pullrequest:latest
+    - generic-webhook-trigger:latest
+    - pipeline-stage-view:latest
+    - blueocean:latest
 
   resources:
     requests:

@@ -4,7 +4,7 @@
 
 ### У GitHub репозиторії:
 1. Перейти до **Settings** → **Webhooks** → **Add webhook**
-2. **Payload URL:** `http://a3d338368a5dc4fa196b1df4e74f665c-337891972.eu-central-1.elb.amazonaws.com:8080/github-webhook/`
+2. **Payload URL:** `http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com/github-webhook/`
 3. **Content type:** `application/json`
 4. **Which events:** `Just the push event`
 5. **Active:** ✅ Enabled
@@ -41,12 +41,12 @@ pipeline {
 3. Перевірити в **Jenkins Console Output**
 
 ### URLs для налаштування:
-- **Jenkins:** http://a3d338368a5dc4fa196b1df4e74f665c-337891972.eu-central-1.elb.amazonaws.com:8080
-- **GitHub Webhook URL:** http://a3d338368a5dc4fa196b1df4e74f665c-337891972.eu-central-1.elb.amazonaws.com:8080/github-webhook/
+- **Jenkins:** http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com
+- **GitHub Webhook URL:** http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com/github-webhook/
 
 ### Логін Jenkins:
-- **Username:** admin
-- **Password:** H@dyRlwgkI*D%DRR
+- **Username:** user
+- **Password:** qVY3gnhwbL
 
 ## 5. Альтернативні тригери
 
