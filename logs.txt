@@ -1,196 +1,34 @@
-Started by user Jenkins Admin
-Obtained Jenkinsfile from git https://github.com/IYgit/lesson-8-9.git
-[Pipeline] Start of Pipeline
-[Pipeline] podTemplate
-[Pipeline] {
-[Pipeline] node
-Created Pod: kubernetes jenkins/django-pipeline-2-s30n7-pntfp-1tk2c
-[PodInfo] jenkins/django-pipeline-2-s30n7-pntfp-1tk2c
-	Container [git] waiting [ContainerCreating] No message
-	Container [jnlp] waiting [ContainerCreating] No message
-	Container [kaniko] waiting [ContainerCreating] No message
-	Pod [Pending][ContainersNotReady] containers with unready status: [kaniko git jnlp]
-Still waiting to schedule task
-‘django-pipeline-2-s30n7-pntfp-1tk2c’ is offline
-Agent django-pipeline-2-s30n7-pntfp-1tk2c is provisioned from template django-pipeline_2-s30n7-pntfp
----
-apiVersion: "v1"
-kind: "Pod"
-metadata:
-  annotations:
-    kubernetes.jenkins.io/last-refresh: "1752420737564"
-    buildUrl: "http://jenkins.jenkins.svc.cluster.local:8080/job/django-pipeline/2/"
-    runUrl: "job/django-pipeline/2/"
-  labels:
-    jenkins/jenkins-jenkins-agent: "true"
-    jenkins/label-digest: "74588fe9babd908f8bca1c46898f69557d77361c"
-    jenkins/label: "django-pipeline_2-s30n7"
-    kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
-  name: "django-pipeline-2-s30n7-pntfp-1tk2c"
-  namespace: "jenkins"
-spec:
-  containers:
-  - command:
-    - "/busybox/cat"
-    image: "gcr.io/kaniko-project/executor:debug"
-    imagePullPolicy: "Always"
-    name: "kaniko"
-    tty: true
-    volumeMounts:
-    - mountPath: "/kaniko/.docker"
-      name: "docker-config"
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - command:
-    - "/bin/sh"
-    image: "bitnami/git:latest"
-    name: "git"
-    tty: true
-    volumeMounts:
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - env:
-    - name: "JENKINS_SECRET"
-      value: "********"
-    - name: "JENKINS_TUNNEL"
-      value: "jenkins-agent.jenkins.svc.cluster.local:50000"
-    - name: "JENKINS_AGENT_NAME"
-      value: "django-pipeline-2-s30n7-pntfp-1tk2c"
-    - name: "REMOTING_OPTS"
-      value: "-noReconnectAfter 1d"
-    - name: "JENKINS_NAME"
-      value: "django-pipeline-2-s30n7-pntfp-1tk2c"
-    - name: "JENKINS_AGENT_WORKDIR"
-      value: "/home/jenkins/agent"
-    - name: "JENKINS_URL"
-      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
-    image: "jenkins/inbound-agent:3309.v27b_9314fd1a_4-1"
-    name: "jnlp"
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-    volumeMounts:
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  nodeSelector:
-    kubernetes.io/os: "linux"
-  restartPolicy: "Never"
-  volumes:
-  - configMap:
-      name: "docker-config"
-    name: "docker-config"
-  - emptyDir:
-      medium: ""
-    name: "workspace-volume"
-
-Running on django-pipeline-2-s30n7-pntfp-1tk2c in /home/jenkins/agent/workspace/django-pipeline
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (Declarative: Checkout SCM)
-[Pipeline] checkout
-Selected Git installation does not exist. Using Default
-The recommended git tool is: NONE
-No credentials specified
-Cloning the remote Git repository
-Cloning repository https://github.com/IYgit/lesson-8-9.git
- > git init /home/jenkins/agent/workspace/django-pipeline # timeout=10
-Fetching upstream changes from https://github.com/IYgit/lesson-8-9.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- https://github.com/IYgit/lesson-8-9.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git config remote.origin.url https://github.com/IYgit/lesson-8-9.git # timeout=10
- > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
-Avoid second fetch
-Checking out Revision a0c0f9dc25db4d2b6d3ec695bca2559a8b0265f2 (refs/remotes/origin/main)
-Commit message: "Merge pull request #1 from IYgit/feature/cicd-pipeline-fixes"
-First time build. Skipping changelog.
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] withEnv
-[Pipeline] {
-[Pipeline] withEnv
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (Checkout)
-[Pipeline] checkout
-Selected Git installation does not exist. Using Default
-The recommended git tool is: NONE
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f a0c0f9dc25db4d2b6d3ec695bca2559a8b0265f2 # timeout=10
-Checking out Revision a0c0f9dc25db4d2b6d3ec695bca2559a8b0265f2 (refs/remotes/origin/main)
-Commit message: "Merge pull request #1 from IYgit/feature/cicd-pipeline-fixes"
-[Pipeline] script
-[Pipeline] {
-[Pipeline] sh
- > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/django-pipeline/.git # timeout=10
- > git config remote.origin.url https://github.com/IYgit/lesson-8-9.git # timeout=10
-Fetching upstream changes from https://github.com/IYgit/lesson-8-9.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- https://github.com/IYgit/lesson-8-9.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f a0c0f9dc25db4d2b6d3ec695bca2559a8b0265f2 # timeout=10
-+ git rev-parse --short HEAD
-[Pipeline] }
-[Pipeline] // script
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Build and Push to ECR)
-[Pipeline] container
-[Pipeline] {
-[Pipeline] script
-[Pipeline] {
-[Pipeline] sh
-+ echo 'Building Docker image with tag: django-2'
-Building Docker image with tag: django-2
-+ pwd
-+ pwd
-+ /kaniko/executor --context /home/jenkins/agent/workspace/django-pipeline --dockerfile /home/jenkins/agent/workspace/django-pipeline/Dockerfile --destination 045552220539.dkr.ecr.eu-central-1.amazonaws.com/dev-lesson-5-app:django-2 --destination 045552220539.dkr.ecr.eu-central-1.amazonaws.com/dev-lesson-5-app:latest
-error checking push permissions -- make sure you entered the correct tag name, and that you are authenticated correctly, and try again: checking push permission for "045552220539.dkr.ecr.eu-central-1.amazonaws.com/dev-lesson-5-app:django-2": POST https://045552220539.dkr.ecr.eu-central-1.amazonaws.com/v2/dev-lesson-5-app/blobs/uploads/: DENIED: User: arn:aws:sts::045552220539:assumed-role/dev-eks-node-group-role/i-0b691f60072b700b9 is not authorized to perform: ecr:InitiateLayerUpload on resource: arn:aws:ecr:eu-central-1:045552220539:repository/dev-lesson-5-app because no identity-based policy allows the ecr:InitiateLayerUpload action
-[Pipeline] }
-[Pipeline] // script
-[Pipeline] }
-[Pipeline] // container
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Update Helm Chart)
-Stage "Update Helm Chart" skipped due to earlier failure(s)
-[Pipeline] getContext
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Deploy with ArgoCD)
-Stage "Deploy with ArgoCD" skipped due to earlier failure(s)
-[Pipeline] getContext
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] echo
-Pipeline completed!
-[Pipeline] echo
-Pipeline failed! Check the logs.
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-[Pipeline] // withEnv
-[Pipeline] }
-[Pipeline] // withEnv
-[Pipeline] }
-Agent django-pipeline-2-s30n7-pntfp-1tk2c was deleted, but do not have a node body to cancel
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // podTemplate
-[Pipeline] End of Pipeline
-ERROR: script returned exit code 1
+Started by user user
+Running as SYSTEM
+Building in workspace /bitnami/jenkins/home/workspace/django-pipilene
+FATAL: Unable to produce a script file
+java.nio.charset.UnmappableCharacterException: Input length = 1
+	at java.base/java.nio.charset.CoderResult.throwException(Unknown Source)
+	at java.base/sun.nio.cs.StreamEncoder.implWrite(Unknown Source)
+	at java.base/sun.nio.cs.StreamEncoder.implWrite(Unknown Source)
+	at java.base/sun.nio.cs.StreamEncoder.write(Unknown Source)
+	at java.base/java.io.OutputStreamWriter.write(Unknown Source)
+	at java.base/java.io.BufferedWriter.flushBuffer(Unknown Source)
+	at java.base/java.io.BufferedWriter.close(Unknown Source)
+	at hudson.FilePath$CreateTextTempFile.invoke(FilePath.java:1673)
+	at hudson.FilePath$CreateTextTempFile.invoke(FilePath.java:1643)
+	at hudson.FilePath.act(FilePath.java:1213)
+	at hudson.FilePath.act(FilePath.java:1196)
+	at hudson.FilePath.createTextTempFile(FilePath.java:1637)
+Caused: java.io.IOException: Failed to create a temp file on /bitnami/jenkins/home/workspace/django-pipilene
+	at hudson.FilePath.createTextTempFile(FilePath.java:1639)
+	at hudson.tasks.CommandInterpreter.createScriptFile(CommandInterpreter.java:202)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:120)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:92)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:818)
+	at hudson.model.Build$BuildExecution.build(Build.java:199)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:164)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:527)
+	at hudson.model.Run.execute(Run.java:1840)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:446)
+Build step 'Execute shell' marked build as failure
+Archiving artifacts
 Finished: FAILURE

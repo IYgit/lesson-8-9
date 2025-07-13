@@ -15,17 +15,17 @@ kubectl port-forward -n jenkins service/jenkins 8080:80
 
 ### 3. Логін:
 - **Username:** user
-- **Password:** qVY3gnhwbL
+- **Password:** SfAGo1vYai
 
 ## 🌐 Доступ через LoadBalancer (коли буде готовий)
 
 ### URL (може зайняти 5-10 хвилин для DNS):
-- **Jenkins:** http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com
-- **Webhook:** http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com/github-webhook/
+- **Jenkins:** http://ad19d5d2091bc40dd9d9278b9076fa39-1885378173.eu-central-1.elb.amazonaws.com
+- **Webhook:** http://ad19d5d2091bc40dd9d9278b9076fa39-1885378173.eu-central-1.elb.amazonaws.com/github-webhook/
 
 ### Перевірка доступності:
 ```bash
-curl -I http://a73c7f005f34940ddaa9ffc5bdb233cfe-2065428861.eu-central-1.elb.amazonaws.com
+curl -I http://ad19d5d2091bc40dd9d9278b9076fa39-1885378173.eu-central-1.elb.amazonaws.com
 ```
 
 ## 📋 Налаштування Jenkins Job
