@@ -117,19 +117,20 @@ resource "kubernetes_storage_class" "ebs_sc" {
     encrypted = "true"
   }
 
-  depends_on = [aws_eks_addon.ebs_csi_driver]
+  depends_on = [aws_eks_node_group.main]
 }
 
-resource "aws_eks_addon" "ebs_csi" {
-  cluster_name = aws_eks_cluster.main.name
-  addon_name   = "aws-ebs-csi-driver"
+# Коментуємо EBS CSI addon тимчасово, оскільки він вже існує
+# resource "aws_eks_addon" "ebs_csi" {
+#   cluster_name = aws_eks_cluster.main.name
+#   addon_name   = "aws-ebs-csi-driver"
 
-  service_account_role_arn = aws_iam_role.ebs_csi_role.arn
+#   service_account_role_arn = aws_iam_role.ebs_csi_role.arn
 
-  depends_on = [
-    aws_iam_role_policy_attachment.ebs_csi_policy_attachment
-  ]
-}
+#   depends_on = [
+#     aws_iam_role_policy_attachment.ebs_csi_policy_attachment
+#   ]
+# }
 
 # Встановлюємо цей StorageClass як default
 resource "kubernetes_annotations" "gp2" {

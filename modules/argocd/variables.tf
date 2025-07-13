@@ -9,3 +9,8 @@ variable "chart_version" {
   type        = string
   default     = "5.5.0"
 }
+
+variable "repo_url" {
+  description = "Git repository URL for ArgoCD to monitor"
+  type        = string
+}

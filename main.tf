@@ -86,6 +86,8 @@ module "eks" {
 module "argocd" {
   source = "./modules/argocd"
 
+  repo_url = "https://github.com/IYgit/lesson-8-9.git"
+
   depends_on = [
     time_sleep.wait_for_cluster,
     module.eks
@@ -113,10 +115,12 @@ resource "helm_release" "django_app" {
   namespace  = "default"
   replace    = true
 
-  set {
-    name  = "image.repository"
-    value = module.ecr.repository_url
-  }
+  set = [
+    {
+      name  = "image.repository"
+      value = module.ecr.repository_url
+    }
+  ]
 
   depends_on = [
     module.argocd,
