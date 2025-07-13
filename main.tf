@@ -83,3 +83,43 @@ module "eks" {
   private_subnet_ids = module.vpc.private_subnet_ids
 }
 
+module "argocd" {
+  source = "./modules/argocd"
+
+  depends_on = [
+    time_sleep.wait_for_cluster,
+    module.eks
+  ]
+}
+
+resource "kubernetes_secret" "db_credentials" {
+  metadata {
+    name      = "db-credentials"
+    namespace = "default"
+  }
+
+  data = {
+    POSTGRES_DB       = "django_db"
+    POSTGRES_USER     = "django_user"
+    POSTGRES_PASSWORD = "pass9764gd"
+    POSTGRES_HOST     = "db"
+    POSTGRES_PORT     = "5432"
+  }
+}
+
+resource "helm_release" "django_app" {
+  name       = "django-app"
+  chart      = "./charts/django-app"
+  namespace  = "default"
+  replace    = true
+
+  set {
+    name  = "image.repository"
+    value = module.ecr.repository_url
+  }
+
+  depends_on = [
+    module.argocd,
+    kubernetes_secret.db_credentials
+  ]
+}
