@@ -91,3 +91,13 @@ Progect/
 │       ├── Chart.yaml
 │       └── values.yaml     # ConfigMap зі змінними середовища
 ```
+### Kubernetes Cluster
+![](./assets/kubernetes_cluster.png)
+### Django
+![](./assets/django_image.png)
+### Jenkins CLI
+![](./assets/jenkins.png)
+### Jenkins UI
+![](./assets/jenkins_ui.png)
+### ArgoCD
+![](./assets/argocd.png)
