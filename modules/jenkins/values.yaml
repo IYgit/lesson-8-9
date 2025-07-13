@@ -1,13 +1,14 @@
 controller:
-  adminUser: "admin"
-  adminPassword: "admin123"  # В продакшені використовуйте безпечніший пароль
-
+  admin:
+    username: "admin"
+    password: "H@dyRlwgkI*D%DRR"
+  
   installPlugins:
-    - kubernetes:3900.v5a_03996b_c59
-    - workflow-aggregator:590.v6a_d052e5a_a_b_5
-    - git:5.1.0
-    - configuration-as-code:1647.ve39ca_b_829b_42
-    - amazon-ecr:1.9
+    - kubernetes:latest
+    - workflow-aggregator:latest
+    - git:latest
+    - configuration-as-code:latest
+    - amazon-ecr:latest
 
   resources:
     requests:
@@ -27,8 +28,8 @@ agent:
       containers:
         - name: "kaniko"
           image: "gcr.io/kaniko-project/executor:latest"
-          command: "sleep"
-          args: "99d"
+          command: "/bin/sh"
+          args: "-c \"cat\""
           ttyEnabled: true
           privileged: true
           resourceRequestCpu: "500m"
@@ -38,7 +39,6 @@ agent:
 
 persistence:
   enabled: true
-  storageClass: "${storage_class}"  # використовуємо змінну
   size: "10Gi"
 
 rbac:

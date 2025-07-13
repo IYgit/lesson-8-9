@@ -20,3 +20,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: django-config
+            - secretRef:
+                name: db-credentials

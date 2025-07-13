@@ -4,6 +4,11 @@ resource "kubernetes_namespace" "jenkins" {
   }
 }
 
+resource "random_password" "admin" {
+  length  = 16
+  special = true
+}
+
 resource "helm_release" "jenkins" {
   name       = "jenkins"
   repository = "https://charts.jenkins.io"
@@ -28,6 +33,14 @@ resource "helm_release" "jenkins" {
     {
       name  = "persistence.storageClass"
       value = var.storage_class
+    },
+    {
+      name  = "controller.adminUser"
+      value = "admin"
+    },
+    {
+      name  = "controller.adminPassword"
+      value = random_password.admin.result
     }
   ]
 

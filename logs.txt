@@ -1,0 +1,229 @@
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9> kubectl get pods -n jenkins
+NAME        READY   STATUS                  RESTARTS        AGE
+jenkins-0   0/2     Init:CrashLoopBackOff   8 (4m22s ago)   93m
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9> kubectl describe pod -n jenkins jenkins-0
+Name:             jenkins-0
+Namespace:        jenkins
+Priority:         0
+Service Account:  jenkins
+Node:             ip-10-0-6-59.eu-central-1.compute.internal/10.0.6.59
+Start Time:       Sun, 13 Jul 2025 10:58:00 +0300
+Labels:           app.kubernetes.io/component=jenkins-controller
+                  app.kubernetes.io/instance=jenkins
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=jenkins
+                  apps.kubernetes.io/pod-index=0
+                  controller-revision-hash=jenkins-97dd84d77
+                  statefulset.kubernetes.io/pod-name=jenkins-0
+Annotations:      checksum/config: 99febe6c8d3e427c33fc00d6b131877662f8147244bea29e39297b0384308805
+Status:           Pending
+IP:               10.0.6.217
+IPs:
+  IP:           10.0.6.217
+Controlled By:  StatefulSet/jenkins
+Init Containers:
+  init:
+    Container ID:  containerd://42e701e64c51ce06a9e4687c3b0d53d7c72ad4d09e3c73491db9879d43966ae0
+    Image:         jenkins/jenkins:2.414.1-jdk11
+    Image ID:      docker.io/jenkins/jenkins@sha256:645d55b80126b67dd23b6ba65d455ebc13689d057f498fbecd7bdb9165f0dd64
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      /var/jenkins_config/apply_config.sh
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Sun, 13 Jul 2025 11:15:02 +0300
+      Finished:     Sun, 13 Jul 2025 11:15:09 +0300
+    Ready:          False
+    Restart Count:  8
+    Limits:
+      cpu:     2
+      memory:  2Gi
+    Requests:
+      cpu:        500m
+      memory:     512Mi
+    Environment:  <none>
+    Mounts:
+      /tmp from tmp-volume (rw)
+      /usr/share/jenkins/ref/plugins from plugins (rw)
+      /var/jenkins_config from jenkins-config (rw)
+      /var/jenkins_home from jenkins-home (rw)
+      /var/jenkins_plugins from plugin-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bbr8m (ro)
+Containers:
+  jenkins:
+    Container ID:
+    Image:         jenkins/jenkins:2.414.1-jdk11
+    Image ID:
+    Ports:         8080/TCP, 50000/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Args:
+      --httpPort=8080
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     2
+      memory:  2Gi
+    Requests:
+      cpu:      500m
+      memory:   512Mi
+    Liveness:   http-get http://:http/login delay=0s timeout=5s period=10s #success=1 #failure=5
+    Readiness:  http-get http://:http/login delay=0s timeout=5s period=10s #success=1 #failure=3
+    Startup:    http-get http://:http/login delay=0s timeout=5s period=10s #success=1 #failure=12
+    Environment:
+      SECRETS:                   /run/secrets/additional
+      POD_NAME:                  jenkins-0 (v1:metadata.name)
+      JAVA_OPTS:                 -Dcasc.reload.token=$(POD_NAME)
+      JENKINS_OPTS:              --webroot=/var/jenkins_cache/war
+      JENKINS_SLAVE_AGENT_PORT:  50000
+      CASC_JENKINS_CONFIG:       /var/jenkins_home/casc_configs
+    Mounts:
+      /run/secrets/additional from jenkins-secrets (ro)
+      /tmp from tmp-volume (rw)
+      /usr/share/jenkins/ref/plugins/ from plugin-dir (rw)
+      /var/jenkins_cache from jenkins-cache (rw)
+      /var/jenkins_config from jenkins-config (ro)
+      /var/jenkins_home from jenkins-home (rw)
+      /var/jenkins_home/casc_configs from sc-config-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bbr8m (ro)
+  config-reload:
+    Container ID:
+    Image:          kiwigrid/k8s-sidecar:1.24.4
+    Image ID:
+    Port:           <none>
+    Host Port:      <none>
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Environment:
+      POD_NAME:           jenkins-0 (v1:metadata.name)
+      LABEL:              jenkins-jenkins-config
+      FOLDER:             /var/jenkins_home/casc_configs
+      NAMESPACE:          jenkins
+      REQ_URL:            http://localhost:8080/reload-configuration-as-code/?casc-reload-token=$(POD_NAME)
+      REQ_METHOD:         POST
+      REQ_RETRY_CONNECT:  10
+    Mounts:
+      /var/jenkins_home from jenkins-home (rw)
+      /var/jenkins_home/casc_configs from sc-config-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bbr8m (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 False
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  plugins:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  jenkins-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      jenkins
+    Optional:  false
+  plugin-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  jenkins-secrets:
+    Type:                Projected (a volume that contains injected data from multiple sources)
+    SecretName:          jenkins
+    SecretOptionalName:  <nil>
+  jenkins-cache:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  jenkins-home:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  jenkins
+    ReadOnly:   false
+  sc-config-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  tmp-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  kube-api-access-bbr8m:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age                  From                     Message
+  ----     ------                  ----                 ----                     -------
+  Warning  FailedScheduling        32m (x6 over 82m)    default-scheduler        running PreBind plugin "VolumeBinding": binding volumes: context deadline exceeded
+  Normal   Scheduled               21m                  default-scheduler        Successfully assigned jenkins/jenkins-0 to ip-10-0-6-59.eu-central-1.compute.internal
+  Normal   SuccessfulAttachVolume  21m                  attachdetach-controller  AttachVolume.Attach succeeded for volume "pvc-9791b18f-c077-492a-99c9-8a080f6553a8"
+  Normal   Pulled                  21m                  kubelet                  Successfully pulled image "jenkins/jenkins:2.414.1-jdk11" in 8.966s (8.966s including waiting)
+  Normal   Pulled                  21m                  kubelet                  Successfully pulled image "jenkins/jenkins:2.414.1-jdk11" in 745ms (745ms including waiting)
+  Normal   Pulled                  21m                  kubelet                  Successfully pulled image "jenkins/jenkins:2.414.1-jdk11" in 765ms (765ms including waiting)
+  Normal   Created                 20m (x4 over 21m)    kubelet                  Created container: init
+  Normal   Started                 20m (x4 over 21m)    kubelet                  Started container init
+  Normal   Pulled                  20m                  kubelet                  Successfully pulled image "jenkins/jenkins:2.414.1-jdk11" in 778ms (778ms including waiting)
+  Normal   Pulling                 19m (x5 over 21m)    kubelet                  Pulling image "jenkins/jenkins:2.414.1-jdk11"
+  Normal   Pulled                  19m                  kubelet                  Successfully pulled image "jenkins/jenkins:2.414.1-jdk11" in 840ms (840ms including waiting)
+  Warning  BackOff                 101s (x87 over 21m)  kubelet                  Back-off restarting failed container init in pod jenkins-0_jenkins(9cb4f9c7-7398-4032-809c-a7f6ed0752b5)
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9> kubectl get pvc -n jenkins
+NAME      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+jenkins   Bound    pvc-9791b18f-c077-492a-99c9-8a080f6553a8   10Gi       RWO            gp2            <unset>                 94m
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9> kubectl describe pvc -n jenkins jenkins
+Name:          jenkins
+Namespace:     jenkins
+StorageClass:  gp2
+Status:        Bound
+Volume:        pvc-9791b18f-c077-492a-99c9-8a080f6553a8
+Labels:        app.kubernetes.io/component=jenkins-controller
+               app.kubernetes.io/instance=jenkins
+               app.kubernetes.io/managed-by=Helm
+               app.kubernetes.io/name=jenkins
+               helm.sh/chart=jenkins-4.6.1
+Annotations:   meta.helm.sh/release-name: jenkins
+               meta.helm.sh/release-namespace: jenkins
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               volume.beta.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+               volume.kubernetes.io/selected-node: ip-10-0-6-59.eu-central-1.compute.internal
+               volume.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      10Gi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       jenkins-0
+Events:
+  Type     Reason                 Age                  From                                                                                      Message
+  ----     ------                 ----                 ----                                                                                      -------
+  Warning  ProvisioningFailed     47m                  ebs.csi.aws.com_ebs-csi-controller-797fdc6945-dfnvz_41e80281-022b-46c6-9e3b-039371606666  failed to provision vo
+lume with StorageClass "gp2": rpc error: code = Internal desc = Could not create volume "pvc-9791b18f-c077-492a-99c9-8a080f6553a8": could not create volume in EC2: ope
+ration error EC2: CreateVolume, get identity: get credentials: failed to refresh cached credentials, failed to retrieve credentials, operation error STS: AssumeRoleWit
+hWebIdentity, exceeded maximum number of attempts, 3, https response error StatusCode: 400, RequestID: 8218e3e9-6a84-4c94-b3cc-b25209b5f4fb, InvalidIdentityToken: No OpenIDConnect provider found in your account for https://oidc.eks.eu-central-1.amazonaws.com/id/3D27A62852FA44DD99CDFFB5AC16F8A3
+  Warning  ProvisioningFailed     45m                  ebs.csi.aws.com_ebs-csi-controller-797fdc6945-dfnvz_41e80281-022b-46c6-9e3b-039371606666  failed to provision vo
+lume with StorageClass "gp2": rpc error: code = Internal desc = Could not create volume "pvc-9791b18f-c077-492a-99c9-8a080f6553a8": could not create volume in EC2: ope
+ration error EC2: CreateVolume, get identity: get credentials: failed to refresh cached credentials, failed to retrieve credentials, operation error STS: AssumeRoleWit
+hWebIdentity, exceeded maximum number of attempts, 3, https response error StatusCode: 400, RequestID: a6e95265-04c3-476e-bfaf-352ab56b264c, InvalidIdentityToken: No OpenIDConnect provider found in your account for https://oidc.eks.eu-central-1.amazonaws.com/id/3D27A62852FA44DD99CDFFB5AC16F8A3
+  Normal   Provisioning           33m (x16 over 93m)   ebs.csi.aws.com_ebs-csi-controller-797fdc6945-dfnvz_41e80281-022b-46c6-9e3b-039371606666  External provisioner is provisioning volume for claim "jenkins/jenkins"
+  Warning  ProvisioningFailed     32m                  ebs.csi.aws.com_ebs-csi-controller-797fdc6945-dfnvz_41e80281-022b-46c6-9e3b-039371606666  failed to provision vo
+lume with StorageClass "gp2": rpc error: code = Internal desc = Could not create volume "pvc-9791b18f-c077-492a-99c9-8a080f6553a8": could not create volume in EC2: ope
+ration error EC2: CreateVolume, get identity: get credentials: failed to refresh cached credentials, failed to retrieve credentials, operation error STS: AssumeRoleWit
+hWebIdentity, exceeded maximum number of attempts, 3, https response error StatusCode: 400, RequestID: 83693c7f-9b34-46db-b236-7ba82d221cac, InvalidIdentityToken: No OpenIDConnect provider found in your account for https://oidc.eks.eu-central-1.amazonaws.com/id/3D27A62852FA44DD99CDFFB5AC16F8A3
+  Normal   ExternalProvisioning   24m (x279 over 93m)  persistentvolume-controller                                                               Waiting for a volume to be created either by the external provisioner 'ebs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+  Normal   Provisioning           22m                  ebs.csi.aws.com_ebs-csi-controller-786589757b-7497c_380fa408-433f-4293-a0f2-6da0d53167d4  External provisioner is provisioning volume for claim "jenkins/jenkins"
+  Normal   ProvisioningSucceeded  22m                  ebs.csi.aws.com_ebs-csi-controller-786589757b-7497c_380fa408-433f-4293-a0f2-6da0d53167d4  Successfully provisioned volume pvc-9791b18f-c077-492a-99c9-8a080f6553a8
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9> kubectl delete namespace jenkins
+namespace "jenkins" deleted
+(base) PS C:\Work\GoIT\DevOps\HW\lesson-8-9>
